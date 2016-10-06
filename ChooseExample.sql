@@ -1,0 +1,5 @@
+
+-- RETURNS 'DEF'
+SELECT CHOOSE(2, 'ABC', 'DEF', 'XYZ');
+
+
