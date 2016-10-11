@@ -6,7 +6,4 @@ SELECT DATEPART(DAYOFYEAR, GETDATE());
 SELECT DATEPART(ISO_WEEK, GETDATE());
 
 
-
--- Could not get the following to work
-
-SELECT DATEPART(TZ, CONVERT(datetime, getdate(), 101));
+SELECT DATEPART(TZoffset, TODATETIMEOFFSET(CAST(GETDATE() AS DATETIME2), '-07:00'));   --< Returns -420 which is -7 * 60 = -420
