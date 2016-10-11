@@ -1,8 +1,8 @@
-SELECT GETDATE() AS GETDATE									-- 	2016-10-10 08:38:26.640
-SELECT SYSDATETIME() AS SYSDATETIME							-- 	2016-10-10 08:38:26.6404846
-SELECT CURRENT_TIMESTAMP AS [CURRENT_TIMESTAMP]				-- 	2016-10-10 08:38:26.640
-SELECT GETUTCDATE()	AS 	GETUTCDATE							-- 	2016-10-10 07:38:26.640
-SELECT SYSUTCDATETIME()	AS SYSUTCDATETIME					-- 	2016-10-10 07:38:26.6404846
-SELECT SYSDATETIMEOFFSET() AS SYSDATETIMEOFFSET				-- 	2016-10-10 08:38:26.6404846 +01:00
-SELECT SWITCHOFFSET(GETDATE(), '-02:00') AS SWITCHOFFSET	-- 	2016-10-10 08:37:31.050 -00:02. Returns a datetimeoffset value that is changed from the stored time zone offset to a specified new time zone offset.
-SELECT TODATETIMEOFFSET(CAST(GETDATE() AS DATETIME2), '-07:00')	AS TODATETIMEOFFSET	-- 	2016-10-10 08:42:46.8133333 -07:00. Returns a datetimeoffset value that is translated from a datetime2 expression.
+SELECT GETDATE() AS GETDATE									-- 	2016-10-11 06:10:23.423 - Returns the current database system timestamp as a datetime value without the database time zone offset. This value is derived from the operating system of the computer on which the instance of SQL Server is running.
+SELECT SYSDATETIME() AS SYSDATETIME							-- 	2016-10-11 06:10:23.4272212 - Returns a datetime2(7) value that contains the date and time of the computer on which the instance of SQL Server is running.
+SELECT CURRENT_TIMESTAMP AS [CURRENT_TIMESTAMP]				-- 	2016-10-11 06:10:23.423 - SQL Standard but converted to GETDATE by T-SQL
+SELECT GETUTCDATE()	AS 	GETUTCDATE							-- 	2016-10-11 05:10:23.423 - Returns the current database system timestamp as a datetime value. The database time zone offset is not included. This value represents the current UTC time (Coordinated Universal Time). This value is derived from the operating system of the computer on which the instance of SQL Server is running.
+SELECT SYSUTCDATETIME()	AS SYSUTCDATETIME					-- 	2016-10-11 05:10:23.4272212 - Returns a datetime2 value that contains the date and time of the computer on which the instance of SQL Server is running. The date and time is returned as UTC time (Coordinated Universal Time). 
+SELECT SYSDATETIMEOFFSET() AS SYSDATETIMEOFFSET				-- 	2016-10-11 06:10:23.4272212 +01:00 - Returns a datetimeoffset(7) value that contains the date and time of the computer on which the instance of SQL Server is running. The time zone offset is included.
+SELECT SWITCHOFFSET(GETDATE(), '-02:00') AS SWITCHOFFSET	-- 	2016-10-11 04:10:23.423 -02:00. Returns a datetimeoffset value that is changed from the stored time zone offset to a specified new time zone offset.
+SELECT TODATETIMEOFFSET(CAST(GETDATE() AS DATETIME2), '-07:00')	AS TODATETIMEOFFSET	-- 	2016-10-11 06:10:23.4233333 -07:00. Returns a datetimeoffset value that is translated from a datetime2 expression.
