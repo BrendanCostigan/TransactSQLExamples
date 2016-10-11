@@ -1,0 +1,12 @@
+﻿-- Tested on SQL Azure 11 Oct 2016 
+
+SELECT DATEPART(YEAR, GETDATE());
+SELECT DATEPART(MONTH, GETDATE());
+SELECT DATEPART(DAYOFYEAR, GETDATE());
+SELECT DATEPART(ISO_WEEK, GETDATE());
+
+
+
+-- Could not get the following to work
+
+SELECT DATEPART(TZ, CONVERT(datetime, getdate(), 101));
