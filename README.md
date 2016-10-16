@@ -4,3 +4,5 @@ Some people seem to find taking Microsoft Exams very simple, I do not. For each 
 
 This repository contains sample SQL code principally for the exam
 '70-461 Querying Microsoft SQL Server 2012/2014' however I took the Data Warehouse and SQL Administration exams as well so a few examples from these may have crept in.
+
+Each file or folder is a standalone example. 
