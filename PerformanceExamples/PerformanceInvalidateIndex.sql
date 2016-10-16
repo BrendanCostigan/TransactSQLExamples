@@ -6,6 +6,8 @@ GO
 --
 -- The example is broken into two runs the first uses COALESCE on an index field, the second has the join 
 -- rewritten in a more verbose style, but it allows SQL to continue to use the index and hence runs faster.
+-- 
+-- See article Sargable from https://en.wikipedia.org/wiki/Sargable
 --
 -- Example run times (milliseconds)
 -- 
