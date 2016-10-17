@@ -1,8 +1,16 @@
 -- Source
 -- https://technet.microsoft.com/en-us/library/ms175156(v=sql.105).aspx
+--
+-- The APPLY operator allows you to invoke a table-valued function for each
+-- row returned by an outer table expression of a query. The table-valued 
+-- function acts as the right input and the outer table expression acts as
+-- the left input. The right input is evaluated for each row from the left
+-- input and the rows produced are combined for the final output. 
 
 USE tempdb;
 GO
+
+
 
 IF OBJECT_ID(N'dbo.Departments', N'U') IS NOT NULL
 BEGIN
@@ -16,7 +24,7 @@ BEGIN
 END
 GO
 
-IF OBJECT_ID(N'dbo.fn_getsubtree', N'TF') IS NOT NULL
+IF OBJECT_ID(N'dbo.fn_getsubtree', N'TF') IS NOT NULL			--< Note TF for TABLE FUNCTION
 BEGIN
   DROP FUNCTION dbo.fn_getsubtree
 END
@@ -66,7 +74,8 @@ INSERT INTO dbo.Departments VALUES(5, 'Training',     4)
 INSERT INTO dbo.Departments VALUES(6, 'Gardening', NULL)
 GO
 
-CREATE FUNCTION dbo.fn_getsubtree(@empid AS INT) RETURNS @tree TABLE
+CREATE FUNCTION dbo.fn_getsubtree(@empid AS INT) 
+RETURNS @tree TABLE
 (
   empid   INT NOT NULL,
   empname VARCHAR(25) NOT NULL,
@@ -75,7 +84,7 @@ CREATE FUNCTION dbo.fn_getsubtree(@empid AS INT) RETURNS @tree TABLE
 )
 AS
 BEGIN
-  WITH Employees_Subtree(empid, empname, mgrid, lvl)
+  WITH Employees_Subtree(empid, empname, mgrid, lvl)			--< Note no need for semi-colon
   AS
   (
     -- Anchor Member (AM)
@@ -98,10 +107,39 @@ BEGIN
 END
 GO
 
+
+-- With the CROSS APPLY example, there is no row returned for 
+-- the Gardening department that does not have a manager id. 
+-- This is similar to an INNER JOIN.
 SELECT *
 FROM dbo.Departments AS D
   CROSS APPLY fn_getsubtree(D.deptmgrid) AS ST			--< Note passing in parameter in to function for each row in Department
 
+
+-- With the OUTER APPLY there is a row returned for the 
+-- Gardening department. This is similar to an OUTER JOIN.
+
 SELECT *
 FROM dbo.Departments AS D
   OUTER APPLY fn_getsubtree(D.deptmgrid) AS ST			--< Note passing in parameter in to function for each row in Department
+
+
+  -- Tidy up
+
+  IF OBJECT_ID(N'dbo.Departments', N'U') IS NOT NULL
+BEGIN
+  DROP TABLE dbo.Departments;
+END
+GO
+
+IF OBJECT_ID(N'dbo.Employees', N'U') IS NOT NULL
+BEGIN
+  DROP TABLE dbo.Employees;
+END
+GO
+
+IF OBJECT_ID(N'dbo.fn_getsubtree', N'TF') IS NOT NULL			--< Note TF for TABLE FUNCTION
+BEGIN
+  DROP FUNCTION dbo.fn_getsubtree
+END
+GO
