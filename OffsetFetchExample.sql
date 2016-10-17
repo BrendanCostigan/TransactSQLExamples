@@ -1,6 +1,10 @@
 USE AdventureWorks2014;
 GO
 
+-- Consider using OFFSET-FETCH as it is a SQL standard in palce of which TOP is not,
+-- however OFFSET-FETCH does not support PERCENT and WITH TIES.
+
+
 --Return rows 51 to 75:
 SELECT SalesOrderID, OrderDate, CustomerID
 FROM Sales.SalesOrderHeader

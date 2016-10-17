@@ -1,6 +1,9 @@
 USE tempdb;
 GO
 
+-- Consider using OFFSET-FETCH as it is a SQL standard whilst TOP is not,
+-- however OFFSET-FETCH does not support PERCENT and WITH TIES.
+
 IF OBJECT_ID('#temp') IS NOT NULL
 	DROP TABLE #temp;
 
