@@ -23,10 +23,12 @@ VALUES
 	('Exeter', 124328);			
 
 
-SELECT COUNT(*) AS RowsCount, COUNT(Population) AS NotNullPopulationCount, COUNT(DISTINCT Population) AS DistinctNotNullPopulationCount FROM dbo.Cities;	--< Note when specifiying a column NULL values are excluded
+--< Note when specifiying a column NULL values are excluded
+--< Note you can not specify COUNT(DISTINCT *)
+SELECT COUNT(*) AS RowsCount, COUNT(Population) AS NotNullPopulationCount, COUNT(DISTINCT Population) AS DistinctNotNullPopulationCount FROM dbo.Cities;	
 
 
--- Tyidy up
+-- Tidy up
 
 IF OBJECT_ID('dbo.Cities', 'U') IS NOT NULL
 	DROP TABLE dbo.Cities;
