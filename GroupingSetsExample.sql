@@ -99,6 +99,22 @@ GROUP BY
 ORDER BY Country, Region;
 
 
+-- GROUPING_ID is similar to GROUPING except that it uses a bit pattern to cover multiple columns. So a value of 1
+-- indicates the rightmost column is part of the grouping set, a value of 3 means that the righmost and the next
+-- rightmost column is part of the grouping set and so on.
+SELECT GROUPING_ID(Country, Region), Country, Region, GROUPING(Region), SUM(VALUE)		--< Note the GROUPING FUNCTION in the SELECT
+FROM dbo.Sales
+GROUP BY 
+	GROUPING SETS
+	(
+		(Country, Region),
+		(Country),
+		( )						--< Group by ALL
+	)
+ORDER BY Country, Region;
+
+
+
 -- Tidy up
 
 IF EXISTS (SELECT * FROM sys.objects WHERE name = 'Sales' AND Type = 'U')
