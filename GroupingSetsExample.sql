@@ -51,12 +51,12 @@ GROUP BY
 	)
 ORDER BY Country, Region;
 
-
 -- Note a simple GROUP BY gives the same value as the GROUPING SET example above
-SELECT Country, Region, SUM(VALUE)
-FROM dbo.Sales
-GROUP BY Country, Region
-ORDER BY Country, Region;
+--SELECT Country, Region, SUM(VALUE)
+--FROM dbo.Sales
+--GROUP BY Country, Region
+--ORDER BY Country, Region;
+
 
 
 SELECT Country, Region, SUM(VALUE)
@@ -70,6 +70,24 @@ GROUP BY
 ORDER BY Country, Region;
 
 SELECT Country, Region, SUM(VALUE)
+FROM dbo.Sales
+GROUP BY 
+	GROUPING SETS
+	(
+		(Country, Region),
+		(Country),
+		( )						--< Group by ALL
+	)
+ORDER BY Country, Region;
+
+
+-- When grouping SQL uses NULL to indicate the level which is being grouped. 
+-- However, if the column allows NULLs, you cannot tell if it is a grouping 
+-- column or a NULL in the data hence the GROUPING function which outputs a 
+-- 1 to indicate a grouping row or a 0 to indicate it is not i.e. if a column 
+-- contains NULL it is because of data and not grouping.
+
+SELECT Country, GROUPING(Country), Region, GROUPING(Region), SUM(VALUE)		--< Note the GROUPING FUNCTION in the SELECT
 FROM dbo.Sales
 GROUP BY 
 	GROUPING SETS
