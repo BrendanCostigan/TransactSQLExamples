@@ -71,7 +71,7 @@ FROM dbo.tableForFullTextDemo
 WHERE CONTAINS(myText, 'Fly')
 GO
 
--- FREETEXT looks at vaiants of the search term so returns variants such as FLIES resulting in two rows 
+-- FREETEXT looks at variants of the search term so returns variants such as FLIES resulting in two rows  
 SELECT myText
 FROM dbo.tableForFullTextDemo
 WHERE FREETEXT(myText, 'Fly')
@@ -91,15 +91,11 @@ INNER JOIN FREETEXTTABLE(dbo.tableForFullTextDemo, myText, 'Fly') AS KEY_TBL
 ON fts.Id = KEY_TBL.[Key];
 GO
 
+
 --Tidy Up
 IF OBJECT_ID('dbo.fullTextSearch', 'U') IS NOT NULL
 	DROP TABLE dbo.fullTextSearch;
 GO
-
-SELECT o.name 
-FROM sys.objects o
-INNER JOIN sys.fulltext_indexes  fi
-ON o.object_id = fi.object_id;
 
 IF  EXISTS (SELECT * FROM sys.fulltext_indexes fti WHERE fti.object_id = OBJECT_ID(N'dbo.tableForFullTextDemo'))
 	DROP FULLTEXT INDEX ON dbo.tableForFullTextDemo;			--< Note the ON part of the statement i.e. it is not deleting dbo.tableForFullTextDemo it is deleting the index on the table
@@ -108,3 +104,6 @@ GO
 IF  EXISTS (SELECT * FROM sysfulltextcatalogs ftc WHERE ftc.name = N'myFullTextCatalog')
 	DROP FULLTEXT CATALOG myFullTextCatalog;
 GO
+
+
+
