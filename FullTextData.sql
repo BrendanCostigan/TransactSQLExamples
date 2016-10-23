@@ -65,6 +65,30 @@ FROM dbo.tableForFullTextDemo
 WHERE CONTAINS(myText, 'Lord AND Slayer')
 GO
 
+-- Returns four row
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, 'Rings OR Flies')
+GO
+
+-- Returns four row
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, '"Lords And"')			--< Note need for extra quotes to prevent AND being seeing as a logical operator
+GO
+
+-- Returns four row
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, '"Lords*"')				--< Wildcard
+GO
+
+
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, 'NEAR((Lord, ray), 3)');		--< Only seach for second word within 3 words	
+GO
+
 -- No rows returned
 SELECT myText
 FROM dbo.tableForFullTextDemo
