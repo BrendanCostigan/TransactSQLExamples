@@ -2,6 +2,9 @@ USE [AdventureWorks2014];
 -- Cannot use full-text search in master, tempdb, or model database.
 GO
 
+-- Need to setup SQL Server for Semantic Search Functions details at:
+-- https://raresql.com/2013/05/05/sql-server-2012-semantic-search-install-and-configure-part-1/
+
 
 IF OBJECT_ID('dbo.tableForFullTextDemo', 'U') IS NOT NULL
 	DROP TABLE dbo.tableForFullTextDemo;
@@ -95,6 +98,18 @@ FROM dbo.tableForFullTextDemo
 WHERE CONTAINS(myText, 'Fly')
 GO
 
+-- 2 rows returned
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, 'FORMSOF(INFLECTIONAL, Fly)')	--< Matches on FLIES
+GO
+
+-- 0 rows returned
+SELECT myText
+FROM dbo.tableForFullTextDemo
+WHERE CONTAINS(myText, 'FORMSOF(THESAURUS, Fly)')	--< Would need to update thesaurus XML file to map FLY to other words such as FLOAT or GLIDE
+GO
+
 -- FREETEXT looks at variants of the search term so returns variants such as FLIES resulting in two rows  
 SELECT myText
 FROM dbo.tableForFullTextDemo
@@ -114,6 +129,7 @@ FROM dbo.tableForFullTextDemo fts
 INNER JOIN FREETEXTTABLE(dbo.tableForFullTextDemo, myText, 'Fly') AS KEY_TBL
 ON fts.Id = KEY_TBL.[Key];
 GO
+
 
 
 --Tidy Up
