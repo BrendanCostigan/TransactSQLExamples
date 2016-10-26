@@ -1,5 +1,11 @@
+
+-- Source: https://msdn.microsoft.com/en-us/library/ms175466(v=sql.110).aspx
+
+
 USE tempdb;
 GO
+
+
 
 DECLARE @myDoc XML;
   
@@ -19,7 +25,7 @@ SET @myDoc.modify('insert <Maintenance>3 year parts and labor extended maintenan
 SELECT @myDoc;
       
 -- insert second feature. We want this to be the first in sequence so use 'as first'       
-set @myDoc.modify('insert <Warranty>1 year parts and labor</Warranty>        
+SET @myDoc.modify('insert <Warranty>1 year parts and labor</Warranty>        
 				   as first into (/Root/ProductDescription/Features)[1]');
 				         
 SELECT @myDoc;
@@ -36,7 +42,7 @@ SELECT @myDoc;
 -- 'after' keyword is used (instead of as first or as last child)       
 SELECT @myDoc;
 
-set @myDoc.modify('insert <BikeFrame>Strong long lasting</BikeFrame> 
+SET @myDoc.modify('insert <BikeFrame>Strong long lasting</BikeFrame> 
 				   after (/Root/ProductDescription/Features/Material)[1]');
                           
 SELECT @myDoc;
