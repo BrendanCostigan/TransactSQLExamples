@@ -15,7 +15,7 @@ INSERT myTable
 VALUES ('Orange');
 
 SELECT
-	SCOPE_IDENTITY() AS SCOPE_IDENTITY,
+	SCOPE_IDENTITY() AS SCOPE_IDENTITY,						--< Last identity value generated in a session in the current scope
 	@@IDENTITY AS [@@IDENTITY],								--< Last inserted value
 	IDENT_CURRENT('myTable') AS IDENT_CURRENT;
 GO
