@@ -61,10 +61,10 @@ AS
 BEGIN
 
  SELECT EmpId, FirstName + ' ' + ISNULL(MiddleName, '') +' '+ LastName AS Name
- FROM dbo.Employee
+ FROM dbo.Employee;
 
  SELECT EmpId, FirstName + ' ' + ISNULL(MiddleName, '') +' '+ LastName AS Name
- FROM dbo.Employee
+ FROM dbo.Employee;
 
 END
 GO
