@@ -24,7 +24,7 @@ SELECT CONCAT('Look a transactions: ', CAST(@@TRANCOUNT AS NVARCHAR(255)));
 
 SELECT CONCAT('.. and I can commit it because XACT_STATE() is 1. See what I mean: ', CAST(XACT_STATE() AS NVARCHAR(255)));
 
-ROLLBACK TRAN			--< Need to COMMIT or ROLLBACK the transaction that was automatically started
+
 
 
 
@@ -36,3 +36,6 @@ IF OBJECT_ID(N'dbo.myTable', N'U') IS NOT NULL
 
 -- SQL Default
 SET IMPLICIT_TRANSACTIONS OFF;
+
+
+ROLLBACK TRAN			--< Need to COMMIT or ROLLBACK the transaction that was automatically started
