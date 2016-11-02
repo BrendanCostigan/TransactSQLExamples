@@ -54,6 +54,16 @@ VALUES (1, 'Pear')
 SELECT * FROM dbo.Products
 GO
 
+DISABLE TRIGGER trUpdateInsteadOfProduct ON dbo.Products;
+GO
+
+INSERT dbo.Products
+VALUES (1, 'Pear');
+
+-- Note that Pear is INSERTED becuase the INSTEAD OF trigger has been disabled
+SELECT * FROM dbo.Products;
+GO
+
 -- Tidy up
 IF OBJECT_ID('dbo.Products', 'U') IS NOT NULL
 	DROP TABLE dbo.Products;
