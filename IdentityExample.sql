@@ -1,68 +1,68 @@
 USE tempdb;
 GO
 
-IF EXISTS (SELECT * FROM sys.objects WHERE name = 'myTable' and type = 'U')
-	DROP TABLE myTable;
+IF OBJECT_ID(N'dbo.myTable', N'U') IS NOT NULL
+	DROP TABLE dbo.myTable;
 GO
 
-CREATE TABLE myTable
+CREATE TABLE dbo.myTable
 (
 	Id			INT IDENTITY,
 	ItemName	VARCHAR(255)
 )
 
-INSERT myTable
+INSERT dbo.myTable
 VALUES ('Orange');
 
 SELECT
 	SCOPE_IDENTITY() AS SCOPE_IDENTITY,						--< Last identity value generated in a session in the current scope
 	@@IDENTITY AS [@@IDENTITY],								--< Last inserted value
-	IDENT_CURRENT('myTable') AS IDENT_CURRENT;
+	IDENT_CURRENT('dbo.myTable') AS IDENT_CURRENT;
 GO
 
-IF EXISTS (SELECT * FROM sys.objects WHERE name = 'myExampleProcedure' AND type = 'P')
-	DROP PROCEDURE myExampleProcedure;
+IF OBJECT_ID(N'dbo.myExampleProcedure', N'P') IS NOT NULL
+	DROP PROCEDURE dbo.myExampleProcedure;
 GO
 
-CREATE PROCEDURE myExampleProcedure
+CREATE PROCEDURE dbo.myExampleProcedure
 AS
 BEGIN
-	INSERT myTable
+	INSERT dbo.myTable
 	VALUES ('Apples');
 
 	SELECT
 		SCOPE_IDENTITY() AS SCOPE_IDENTITY,
 		@@IDENTITY AS [@@IDENTITY],									--< Last inserted value
-		IDENT_CURRENT('myTable') AS IDENT_CURRENT;
+		IDENT_CURRENT('dbo.myTable') AS IDENT_CURRENT;
 END
 GO
 
 
-EXEC myExampleProcedure
+EXEC dbo.myExampleProcedure
 
 
 SELECT
 	SCOPE_IDENTITY() AS SCOPE_IDENTITY,				-- Ignores identity update in procedure as this is another session
 	@@IDENTITY AS [@@IDENTITY],						-- Recognises everything in this session even if in another scope
-	IDENT_CURRENT('myTable') AS IDENT_CURRENT;		-- Looks at the table rather than scope or session
+	IDENT_CURRENT('dbo.myTable') AS IDENT_CURRENT;	-- Looks at the table rather than scope or session
 
 
-DBCC CHECKIDENT('myTable', RESEED, 200);
+DBCC CHECKIDENT('dbo.myTable', RESEED, 200);
 
-INSERT myTable VALUES ('Apple');
+INSERT dbo.myTable VALUES ('Apple');
 
 SELECT
 	SCOPE_IDENTITY() AS SCOPE_IDENTITY,				-- Ignores identity update in procedure as this is another session
 	@@IDENTITY AS [@@IDENTITY],						-- Recognises everything in this session even if in another scope
-	IDENT_CURRENT('myTable') AS IDENT_CURRENT;		-- Looks at the table rather than scope or session
+	IDENT_CURRENT('dbo.myTable') AS IDENT_CURRENT;		-- Looks at the table rather than scope or session
 
 
 -- Tidy up
 
-IF EXISTS (SELECT * FROM sys.objects WHERE name = 'myExampleProcedure' AND type = 'P')
-	DROP PROCEDURE myExampleProcedure;
+IF OBJECT_ID(N'dbo.myExampleProcedure', N'P') IS NOT NULL
+	DROP PROCEDURE dbo.myExampleProcedure;
 GO
 
-IF EXISTS (SELECT * FROM sys.objects WHERE name = 'myTable' and type = 'U')
-	DROP TABLE myTable;
+IF OBJECT_ID(N'dbo.myTable', N'U') IS NOT NULL
+	DROP TABLE dbo.myTable;
 GO
