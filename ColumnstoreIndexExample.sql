@@ -1,6 +1,4 @@
 
-
-
 USE tempdb;
 GO
 
