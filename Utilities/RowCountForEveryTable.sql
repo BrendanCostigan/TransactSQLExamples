@@ -3,6 +3,7 @@
 --
 -- Source: http://stackoverflow.com/questions/2221555/how-to-fetch-the-row-count-for-all-tables-in-a-sql-server-database
 --
+-- This gives output which is better formated than using: sp_msforeachtable ' select ''?'' as ''Table'', count(*) as ''Rows'' from ? '
 
 
 SELECT t.NAME TableName, 
@@ -14,3 +15,5 @@ WHERE  t.xtype = 'U'
        AND i.indid IN ( 0, 1 ) 
 ORDER  BY records DESC, 
           tablename ASC; 
+		  
+		  		  
