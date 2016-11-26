@@ -6,8 +6,7 @@
 USE master;
 GO
 
-IF DB_ID(N'TestDB_2016_11_26') IS NOT NULL
-	DROP DATABASE TestDB_2016_11_26;
+DROP DATABASE IF EXISTS TestDB_2016_11_26;
 
 
 CREATE DATABASE TestDB_2016_11_26 ON																--< Need to specify each file except log file
