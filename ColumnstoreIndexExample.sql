@@ -2,8 +2,7 @@
 USE tempdb;
 GO
 
-IF OBJECT_ID('SimpleTable', 'U') IS NOT NULL
-	DROP TABLE SimpleTable;
+DROP TABLE IF EXISTS SimpleTable;
 
 CREATE TABLE SimpleTable
 (
@@ -39,6 +38,5 @@ GO
 
 
 -- Tidy up
-IF OBJECT_ID('SimpleTable', 'U') IS NOT NULL
-	DROP TABLE SimpleTable;
+DROP TABLE IF EXISTS SimpleTable;
 
