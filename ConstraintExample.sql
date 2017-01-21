@@ -1,12 +1,13 @@
+-- Requires SQL 2016
+
 USE tempdb;
 GO
 
-IF OBJECT_ID('dbo.Orders', 'U') IS NOT NULL
-        DROP TABLE dbo.Orders;
+
+DROP TABLE IF EXISTS dbo.Orders;
 GO
 
-IF OBJECT_ID('dbo.Product', 'U') IS NOT NULL
-        DROP TABLE dbo.Product;
+DROP TABLE IF EXISTS dbo.Product;
 GO
 
 -- Note adding constaint as part of table definition
@@ -18,7 +19,7 @@ CREATE TABLE dbo.Product
 );
 
 -- Drop the constraint added as part of CREATE TABLE
-ALTER TABLE dbo.Product DROP CONSTRAINT  constraint_ReleaseDate;
+ALTER TABLE dbo.Product DROP CONSTRAINT constraint_ReleaseDate;
 GO
 
 -- Then re-add it as a seperate statment
@@ -64,9 +65,35 @@ WHERE Id = 1;
 
 SELECT * FROM dbo.Orders;
 
+-- WITH NOCHECK option
+
+-- Remove check constraint on release date
+ALTER TABLE dbo.Product DROP CONSTRAINT constraint_ReleaseDate;
+GO
+
+-- Insert a release date of tomorrow
+INSERT dbo.Product (ProductName, ReleaseDate)
+VALUES ('Lord Of The Rings (DVD)', DATEADD(day, 1, CURRENT_TIMESTAMP));
+
+-- This should fail
+-- !! ERROR - The ALTER TABLE statement conflicted with the CHECK constraint "constraint_ReleaseDate". The conflict occurred in database "tempdb", table "dbo.Product", column 'ReleaseDate'.
+ALTER TABLE dbo.Product
+ADD CONSTRAINT constraint_ReleaseDate CHECK (ReleaseDate < SYSDATETIME());
+GO
+
+
+-- Now we add WITH NOCHECK to allow INVALID data
+ALTER TABLE dbo.Product WITH NOCHECK 
+ADD CONSTRAINT constraint_ReleaseDate CHECK (ReleaseDate < SYSDATETIME());
+
+SELECT * FROM dbo.Product; 
+
 -- Tidy up
 IF OBJECT_ID('dbo.Orders', 'U') IS NOT NULL
         DROP TABLE dbo.Orders;
+GO
+
+ALTER TABLE dbo.Orders DROP CONSTRAINT fk_ProductId;
 GO
 
 IF OBJECT_ID('dbo.Product', 'U') IS NOT NULL
